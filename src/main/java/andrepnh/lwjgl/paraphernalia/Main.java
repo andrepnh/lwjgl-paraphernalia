@@ -60,6 +60,14 @@ public class Main {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            } else if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+                x++;
+            } else if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+                x--;
+            } else if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+                y++;
+            } else if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+                y--;
             }
         });
 
@@ -106,6 +114,14 @@ public class Main {
         // the window or has pressed the ESCAPE key.
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
+            glBegin(GL_QUADS);
+            glColor3f(0, 0, 0);
+            glVertex2d(x, y);
+            glVertex2d(x + 1, y);
+            glVertex2d(x + 1, y + 1);
+            glVertex2d(x, y + 1);
+            glEnd();
             
             glfwSwapBuffers(window); // swap the color buffers
 
