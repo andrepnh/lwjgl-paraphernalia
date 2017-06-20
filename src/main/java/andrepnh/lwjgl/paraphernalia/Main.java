@@ -6,6 +6,10 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import java.nio.*;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -51,7 +55,7 @@ public class Main {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(800, 800, "Hello World!", NULL, NULL);
         if (window == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
@@ -110,29 +114,63 @@ public class Main {
         // Set the clear color
         glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
 
+        List<int[]> squares = IntStream.range(0, 10)
+            .mapToObj(i -> new int[] {0, i})
+            .collect(Collectors.toList());
+        
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
-            glBegin(GL_QUADS);
-            glColor3f(0, 0, 0);
-            glVertex2d(x, y);
-            glVertex2d(x + 1, y);
-            glVertex2d(x + 1, y + 1);
-            glVertex2d(x, y + 1);
-            glEnd();
+            
+            drawSquare(x, y);
+            squares.forEach(array -> drawSquare(array[0], array[1]));
             
             glfwSwapBuffers(window); // swap the color buffers
 
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
+            squares = update(squares);
         }
+    }
+
+    private void drawSquare(int x, int y) {
+        glPushMatrix();
+        glTranslatef(x * 0.1F, y * 0.1F, 0);
+        glBegin(GL_QUADS);
+        glColor3f(0, 0, 0);
+        glVertex2d(0, 0);
+        glVertex2d(0.08, 0);
+        glVertex2d(0.08, 0.08);
+        glVertex2d(0, 0.08);
+        glEnd();
+        glPopMatrix();
     }
 
     public static void main(String[] args) {
         new Main().run();
+    }
+
+    private List<int[]> update(List<int[]> squares) {
+        return squares.stream().map(square -> {
+            int x = square[0], y = square[1];
+            if (y == 0) { // bottom line
+                if (x < 9) { // room left
+                    return new int[] {x + 1, y};
+                } else { // reached end
+                    return new int[] {x, 1};
+                }
+            } else if (x == 9 && y < 9)  { // climbing up
+                return new int[] {x, y + 1};
+            } else { // top line
+                if (x > 0) { // tracking back
+                    return new int[] {x - 1, y};
+                } else { // back to origin
+                    return new int[] {x, y - 1};
+                }
+            }
+        }).collect(Collectors.toList());
     }
 
 }
