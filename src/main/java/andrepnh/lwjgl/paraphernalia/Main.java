@@ -81,7 +81,8 @@ public class Main {
     }
     
     public void run() {
-        GenericGameLoop gameLoop = new LwjglGameLoop(state);
+//        GenericGameLoop gameLoop = new LwjglGameLoop(state);
+        GenericGameLoop gameLoop = new FixedFpsGameLoop(new LwjglGameLoop(state));
         gameLoop.loop();
 
         // Free the window callbacks and destroy the window
