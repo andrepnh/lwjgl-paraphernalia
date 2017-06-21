@@ -4,8 +4,6 @@ package andrepnh.lwjgl.paraphernalia;
  * Simple game loop based on http://gameprogrammingpatterns.com/game-loop.html
  */
 public interface GenericGameLoop {
-    void init();
-
     boolean exit();
 
     void handleInput();
@@ -15,7 +13,6 @@ public interface GenericGameLoop {
     void render();
     
     default void loop() {
-        init();
         while (!exit()) {
             handleInput();
             update();

@@ -1,47 +1,46 @@
 package andrepnh.lwjgl.paraphernalia;
 
-import java.util.concurrent.TimeUnit;
+import andrepnh.lwjgl.paraphernalia.loop.steps.DefaultUpdater;
+import andrepnh.lwjgl.paraphernalia.loop.steps.FixedFpsRenderer;
+import andrepnh.lwjgl.paraphernalia.loop.steps.InstrumentedInputHandler;
+import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
 public class FixedFpsGameLoop implements GenericGameLoop {
     private static final int MILLISECONDS_PER_FRAME = 32; // 30fps
     
-    private final LwjglGameLoop delegate;
+    private final GlobalState state;
     
-    private long frameStart;
-
-    public FixedFpsGameLoop(LwjglGameLoop delegate) {
-        this.delegate = delegate;
-    }
-
-    @Override
-    public void init() {
-        delegate.init();
+    private final InstrumentedInputHandler inputHandler;
+    
+    private final DefaultUpdater updater;
+    
+    private final FixedFpsRenderer renderer;
+    
+    public FixedFpsGameLoop(GlobalState state) {
+        this.state = state;
+        inputHandler = new InstrumentedInputHandler();
+        updater = new DefaultUpdater(state);
+        renderer = new FixedFpsRenderer(state);
     }
 
     @Override
     public boolean exit() {
-        return delegate.exit();
+        return glfwWindowShouldClose(state.window);
     }
 
     @Override
     public void handleInput() {
-        frameStart = System.currentTimeMillis();
-        delegate.handleInput();
+        inputHandler.handleInput();
     }
 
     @Override
     public void update() {
-        delegate.update();
+        updater.update();
     }
 
     @Override
     public void render() {
-        try {
-            delegate.render();
-            TimeUnit.MILLISECONDS.sleep(frameStart + MILLISECONDS_PER_FRAME - System.currentTimeMillis());
-        } catch (InterruptedException ex) {
-            throw new RuntimeException(ex);
-        }
+        renderer.renderUntil(MILLISECONDS_PER_FRAME, inputHandler.frameStart);
     }
     
 }

@@ -8,6 +8,8 @@ import java.nio.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
+import org.lwjgl.opengl.GL;
+import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
@@ -78,11 +80,21 @@ public class Main {
                 state.y--;
             }
         });
+        
+        // This line is critical for LWJGL's interoperation with GLFW's
+        // OpenGL context, or any context that is managed externally.
+        // LWJGL detects the context that is current in the current thread,
+        // creates the GLCapabilities instance and makes the OpenGL
+        // bindings available for use.
+        GL.createCapabilities();
+
+        // Set the clear color
+        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
     }
     
     public void run() {
 //        GenericGameLoop gameLoop = new LwjglGameLoop(state);
-        GenericGameLoop gameLoop = new FixedFpsGameLoop(new LwjglGameLoop(state));
+        GenericGameLoop gameLoop = new FixedFpsGameLoop(state);
         gameLoop.loop();
 
         // Free the window callbacks and destroy the window
