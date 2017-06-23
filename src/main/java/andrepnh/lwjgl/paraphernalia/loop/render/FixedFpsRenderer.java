@@ -1,18 +1,21 @@
-package andrepnh.lwjgl.paraphernalia.loop.steps;
+package andrepnh.lwjgl.paraphernalia.loop.render;
 
 import andrepnh.lwjgl.paraphernalia.GlobalState;
 import java.util.concurrent.TimeUnit;
 
-public class FixedFpsRenderer {
-    private final GlobalState state;
+public class FixedFpsRenderer implements Renderer {
     private final DefaultRenderer delegate;
+    private final long millisecondsPerFrame;
+    private final long frameStart;
 
-    public FixedFpsRenderer(GlobalState state) {
-        this.state = state;
+    public FixedFpsRenderer(GlobalState state, long millisecondsPerFrame, long frameStart) {
+        this.millisecondsPerFrame = millisecondsPerFrame;
+        this.frameStart = frameStart;
         delegate = new DefaultRenderer(state);
     }
     
-    public void renderUntil(long millisecondsPerFrame, long frameStart) {
+    @Override
+    public void render() {
         try {
             delegate.render();
             TimeUnit.MILLISECONDS.sleep(frameStart + millisecondsPerFrame - System.currentTimeMillis());

@@ -1,10 +1,13 @@
-package andrepnh.lwjgl.paraphernalia.loop.steps;
+package andrepnh.lwjgl.paraphernalia.loop.input;
 
-public class InstrumentedInputHandler {
+import andrepnh.lwjgl.paraphernalia.loop.input.InputHandler;
+
+public class InstrumentedInputHandler implements InputHandler {
     private final DefaultInputHandler delegate = new DefaultInputHandler();
     
     public long frameStart;
     
+    @Override
     public void handleInput() {
         frameStart = System.currentTimeMillis();
         delegate.handleInput();

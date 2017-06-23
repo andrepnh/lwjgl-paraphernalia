@@ -1,14 +1,16 @@
-package andrepnh.lwjgl.paraphernalia.loop.steps;
+package andrepnh.lwjgl.paraphernalia.loop.update;
 
+import andrepnh.lwjgl.paraphernalia.loop.update.Updater;
 import andrepnh.lwjgl.paraphernalia.GlobalState;
 
-public class DefaultUpdater {
+public class DefaultUpdater implements Updater {
     private final GlobalState state;
 
     public DefaultUpdater(GlobalState state) {
         this.state = state;
     }
     
+    @Override
     public void update() {
         state.squares.replaceAll(this::move);
     }

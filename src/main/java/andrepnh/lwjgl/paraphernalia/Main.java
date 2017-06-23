@@ -1,5 +1,6 @@
 package andrepnh.lwjgl.paraphernalia;
 
+import andrepnh.lwjgl.paraphernalia.loop.DynamicGameLoop;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.system.*;
@@ -78,6 +79,15 @@ public class Main {
                 state.y++;
             } else if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
                 state.y--;
+            } else if (key == GLFW_KEY_1 && action == GLFW_RELEASE) {
+                state.toogleSlowUpdate();
+                System.out.println("Slow update? " + state.slowUpdate);
+            } else if (key == GLFW_KEY_2 && action == GLFW_RELEASE) {
+                state.toogleSlowRender();
+                System.out.println("Slow render? " + state.slowRender);
+            } else if (key == GLFW_KEY_TAB && action == GLFW_RELEASE) {
+                state.nextLoopKind();
+                System.out.println(state.currentLoopKind);
             }
         });
         
@@ -93,8 +103,7 @@ public class Main {
     }
     
     public void run() {
-//        GenericGameLoop gameLoop = new LwjglGameLoop(state);
-        GenericGameLoop gameLoop = new FixedFpsGameLoop(state);
+        DynamicGameLoop gameLoop = new DynamicGameLoop(state);
         gameLoop.loop();
 
         // Free the window callbacks and destroy the window

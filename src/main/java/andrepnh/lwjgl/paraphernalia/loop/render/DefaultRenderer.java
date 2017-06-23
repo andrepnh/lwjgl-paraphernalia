@@ -1,4 +1,4 @@
-package andrepnh.lwjgl.paraphernalia.loop.steps;
+package andrepnh.lwjgl.paraphernalia.loop.render;
 
 import andrepnh.lwjgl.paraphernalia.GlobalState;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
@@ -14,13 +14,14 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 
-public class DefaultRenderer {
+public class DefaultRenderer implements Renderer {
     private final GlobalState state;
 
     public DefaultRenderer(GlobalState state) {
         this.state = state;
     }
     
+    @Override
     public void render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
         drawSquare(state.x, state.y);
