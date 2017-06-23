@@ -23,12 +23,12 @@ public class DynamicGameLoop {
         while (!glfwWindowShouldClose(state.window)) {
             TickHandler tickHandler = tickHandlerFactory.getInstance(state);
             tickHandler.getInputHandler().handleInput();
-            Updater updater = state.slowUpdate 
-                ? new SlowUpdater(tickHandler.getUpdater(), 10) 
+            Updater updater = state.updateDelay > 0 
+                ? new SlowUpdater(tickHandler.getUpdater(), state.updateDelay) 
                 : tickHandler.getUpdater();
             updater.update();
-            Renderer renderer = state.slowRender 
-                ? new SlowRenderer(tickHandler.getRenderer(), 10) 
+            Renderer renderer = state.renderDelay > 0 
+                ? new SlowRenderer(tickHandler.getRenderer(), state.renderDelay) 
                 : tickHandler.getRenderer();
             renderer.render();
         }

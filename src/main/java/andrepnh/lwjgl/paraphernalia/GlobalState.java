@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public final class GlobalState {
+    private static final long MIN_DELAY = 0;
+    
+    private static final long MAX_DELAY = 1000;
+    
     public final long window;
     
     public int x;
@@ -16,9 +20,9 @@ public final class GlobalState {
     
     public final List<int[]> squares;
     
-    public boolean slowRender;
+    public long updateDelay;
     
-    public boolean slowUpdate;
+    public long renderDelay;
     
     private final Iterator<LoopKind> cyclicLoopKinds;
     
@@ -33,15 +37,36 @@ public final class GlobalState {
         nextLoopKind();
     }
     
-    public void toogleSlowRender() {
-        slowRender = !slowRender;
+    public long incrementUpdateDelay() {
+        if (updateDelay + 1 <= MAX_DELAY) {
+            updateDelay++;
+        }
+        return updateDelay;
     }
     
-    public void toogleSlowUpdate() {
-        slowUpdate = !slowUpdate;
+    public long decrementUpdateDelay() {
+        if (updateDelay - 1 >= MIN_DELAY) {
+            updateDelay--;
+        }
+        return updateDelay;
+    }
+    
+    public long incrementRenderDelay() {
+        if (renderDelay + 1 <= MAX_DELAY) {
+            renderDelay++;
+        }
+        return renderDelay;
+    }
+    
+    public long decrementRenderDelay() {
+        if (renderDelay - 1 >= MIN_DELAY) {
+            renderDelay--;
+        }
+        return renderDelay;
     }
     
     public void nextLoopKind() {
         currentLoopKind = cyclicLoopKinds.next();
     }
+    
 }

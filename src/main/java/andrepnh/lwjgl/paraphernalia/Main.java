@@ -79,12 +79,18 @@ public class Main {
                 state.y++;
             } else if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
                 state.y--;
-            } else if (key == GLFW_KEY_1 && action == GLFW_RELEASE) {
-                state.toogleSlowUpdate();
-                System.out.println("Slow update? " + state.slowUpdate);
-            } else if (key == GLFW_KEY_2 && action == GLFW_RELEASE) {
-                state.toogleSlowRender();
-                System.out.println("Slow render? " + state.slowRender);
+            } else if (key == GLFW_KEY_UP && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+                state.incrementUpdateDelay();
+                System.out.println("Update delay: " + state.updateDelay);
+            } else if (key == GLFW_KEY_DOWN && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+                state.decrementUpdateDelay();
+                System.out.println("Update delay: " + state.updateDelay);
+            } else if (key == GLFW_KEY_RIGHT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+                state.incrementRenderDelay();
+                System.out.println("Render delay: " + state.renderDelay);
+            } else if (key == GLFW_KEY_LEFT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+                state.decrementRenderDelay();
+                System.out.println("Render delay: " + state.renderDelay);
             } else if (key == GLFW_KEY_TAB && action == GLFW_RELEASE) {
                 state.nextLoopKind();
                 System.out.println(state.currentLoopKind);
