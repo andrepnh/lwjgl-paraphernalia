@@ -14,7 +14,9 @@ public class SimpleTickHandler implements TickHandler {
     public List<Consumer<TickState>> getSteps(GlobalState state) {
         return ImmutableList.<Consumer<TickState>>builder()
             .add(tstate -> new DefaultInputHandler().handleInput())
+            .add(tstate -> simulateSlowUpdate(state.updateDelay))
             .add(tstate -> new DefaultUpdater(state).update())
+            .add(tstate -> simulateSlowRender(state.renderDelay))
             .add(tstate -> new DefaultRenderer(state).render())
             .build();
     }

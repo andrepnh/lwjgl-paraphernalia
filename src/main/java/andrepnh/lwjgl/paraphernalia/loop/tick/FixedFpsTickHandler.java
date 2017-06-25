@@ -6,7 +6,6 @@ import andrepnh.lwjgl.paraphernalia.loop.update.DefaultUpdater;
 import andrepnh.lwjgl.paraphernalia.loop.render.DefaultRenderer;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class FixedFpsTickHandler implements TickHandler {
@@ -17,18 +16,13 @@ public class FixedFpsTickHandler implements TickHandler {
         return ImmutableList.<Consumer<TickState>>builder()
             .add(tstate -> tstate.put(Property.FRAME_START, System.currentTimeMillis()))
             .add(tstate -> new DefaultInputHandler().handleInput())
+            .add(tstate -> simulateSlowUpdate(state.updateDelay))
             .add(tstate -> new DefaultUpdater(state).update())
+            .add(tstate -> simulateSlowRender(state.renderDelay))
             .add(tstate -> new DefaultRenderer(state).render())
-            .add(tstate -> {
-                try {
-                    long frameStart = tstate.<Long>get(Property.FRAME_START);
-                    long sleep = frameStart + MILLISECONDS_PER_FRAME - System.currentTimeMillis();
-                    System.out.println(sleep);
-                    TimeUnit.MILLISECONDS.sleep(sleep);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }).build();
+            .add(tstate -> sleep(tstate.<Long>get(Property.FRAME_START) 
+                + MILLISECONDS_PER_FRAME - System.currentTimeMillis()))
+            .build();
     }
 
     enum Property implements TickProperty {
