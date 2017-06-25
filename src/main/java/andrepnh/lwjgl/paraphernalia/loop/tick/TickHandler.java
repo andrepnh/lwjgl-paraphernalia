@@ -1,13 +1,18 @@
 package andrepnh.lwjgl.paraphernalia.loop.tick;
 
-import andrepnh.lwjgl.paraphernalia.loop.input.InputHandler;
-import andrepnh.lwjgl.paraphernalia.loop.render.Renderer;
-import andrepnh.lwjgl.paraphernalia.loop.update.Updater;
+import andrepnh.lwjgl.paraphernalia.GlobalState;
+import java.util.List;
+import java.util.function.Consumer;
 
 public interface TickHandler {
-    InputHandler getInputHandler();
     
-    Updater getUpdater();
+    List<Consumer<TickState>> getSteps(GlobalState state);
     
-    Renderer getRenderer();
+    default void runSteps(GlobalState state) {
+        TickState tstate = new TickState();
+        getSteps(state)
+            .stream()
+            .forEach(step -> step.accept(tstate));
+    }
+    
 }
