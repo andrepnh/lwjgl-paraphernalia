@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class SimpleTickHandler implements TickHandler {
+public class DefaultTickHandler implements TickHandler {
 
     @Override
     public List<Consumer<TickState>> getSteps(GlobalState state) {

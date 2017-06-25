@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class FixedFpsTickHandler implements TickHandler {
+public class FixedFps implements TickHandler {
     private static final int MILLISECONDS_PER_FRAME = 32; // 30fps
 
     @Override

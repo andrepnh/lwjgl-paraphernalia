@@ -6,8 +6,8 @@ public final class TickHandlerFactory {
     
     public TickHandler getInstance(LoopKind loopKind) {
         switch (loopKind) {
-            case SIMPLE: return new SimpleTickHandler();
-            case FIXED_FPS: return new FixedFpsTickHandler();
+            case SIMPLE: return new DefaultTickHandler();
+            case FIXED_FPS: return new FixedFps();
             default: throw new IllegalArgumentException("Unknown LoopKind: " + loopKind);
         }
     }
