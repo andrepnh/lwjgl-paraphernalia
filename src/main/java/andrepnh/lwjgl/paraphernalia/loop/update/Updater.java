@@ -2,6 +2,6 @@ package andrepnh.lwjgl.paraphernalia.loop.update;
 
 public interface Updater {
 
-    void update();
+    void update(int elapsedMilliseconds);
     
 }

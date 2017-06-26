@@ -8,6 +8,7 @@ public final class TickHandlerFactory {
         switch (loopKind) {
             case SIMPLE: return new DefaultTickHandler();
             case FIXED_FPS: return new FixedFps();
+            case FLUID_TIME_STEP: return new FluidTimeStep();
             default: throw new IllegalArgumentException("Unknown LoopKind: " + loopKind);
         }
     }

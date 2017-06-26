@@ -9,9 +9,10 @@ public interface TickHandler {
     
     List<Consumer<TickState>> getSteps(GlobalState state);
     
-    default void runSteps(GlobalState state) {
+    default TickState runSteps(GlobalState state, TickState previousTickState) {
         TickState tstate = new TickState();
         getSteps(state).forEach(step -> step.accept(tstate));
+        return tstate;
     }
     
     default void simulateSlowUpdate(long millisecondsDelay) {

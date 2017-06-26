@@ -17,7 +17,7 @@ public class FixedFps implements TickHandler {
             .add(tstate -> tstate.put(Property.FRAME_START, System.currentTimeMillis()))
             .add(tstate -> new DefaultInputHandler().handleInput())
             .add(tstate -> simulateSlowUpdate(state.updateDelay))
-            .add(tstate -> new DefaultUpdater(state).update())
+            .add(tstate -> new DefaultUpdater(state).update(GlobalState.DEFAULT_MILLISECONDS_PER_FRAME))
             .add(tstate -> simulateSlowRender(state.renderDelay))
             .add(tstate -> new DefaultRenderer(state).render())
             .add(tstate -> sleep(tstate.<Long>get(Property.FRAME_START) 

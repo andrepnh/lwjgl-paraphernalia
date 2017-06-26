@@ -29,7 +29,7 @@ public class DefaultRenderer implements Renderer {
         glfwSwapBuffers(state.window); // swap the color buffers
     }
     
-    private void drawSquare(int x, int y) {
+    private void drawSquare(float x, float y) {
         glPushMatrix();
         glTranslatef(x * 0.1F, y * 0.1F, 0);
         glBegin(GL_QUADS);

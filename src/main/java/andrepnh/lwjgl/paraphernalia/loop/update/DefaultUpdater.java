@@ -1,6 +1,5 @@
 package andrepnh.lwjgl.paraphernalia.loop.update;
 
-import andrepnh.lwjgl.paraphernalia.loop.update.Updater;
 import andrepnh.lwjgl.paraphernalia.GlobalState;
 
 public class DefaultUpdater implements Updater {
@@ -11,25 +10,26 @@ public class DefaultUpdater implements Updater {
     }
     
     @Override
-    public void update() {
-        state.squares.replaceAll(this::move);
+    public void update(int millisecondsPerFrame) {
+        state.squares.replaceAll(square -> move(square, millisecondsPerFrame));
     }
     
-    private int[] move(int[] square) {
-        int x = square[0], y = square[1];
-        if (y == 0) { // bottom line
+    private float[] move(float[] square, int millisecondsPerFrame) {
+        float unitsMoved = millisecondsPerFrame * GlobalState.SQUARE_SPEED_UNITS_PER_MILLISECOND;
+        float x = square[0], y = square[1];
+        if (y <= 0) { // bottom line
             if (x < 9) { // room left
-                return new int[]{x + 1, y};
+                return new float[]{x + unitsMoved, y};
             } else { // reached end
-                return new int[]{x, 1};
+                return new float[]{x, 1};
             }
-        } else if (x == 9 && y < 9) { // climbing up
-            return new int[]{x, y + 1};
+        } else if (x >= 9 && y < 9) { // climbing up
+            return new float[]{x, y + unitsMoved};
         } else { // top line
             if (x > 0) { // tracking back
-                return new int[]{x - 1, y};
+                return new float[]{x - unitsMoved, y};
             } else { // back to origin
-                return new int[]{x, y - 1};
+                return new float[]{x, y - unitsMoved};
             }
         }
     }

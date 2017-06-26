@@ -15,7 +15,7 @@ public class DefaultTickHandler implements TickHandler {
         return ImmutableList.<Consumer<TickState>>builder()
             .add(tstate -> new DefaultInputHandler().handleInput())
             .add(tstate -> simulateSlowUpdate(state.updateDelay))
-            .add(tstate -> new DefaultUpdater(state).update())
+            .add(tstate -> new DefaultUpdater(state).update(GlobalState.DEFAULT_MILLISECONDS_PER_FRAME))
             .add(tstate -> simulateSlowRender(state.renderDelay))
             .add(tstate -> new DefaultRenderer(state).render())
             .build();
