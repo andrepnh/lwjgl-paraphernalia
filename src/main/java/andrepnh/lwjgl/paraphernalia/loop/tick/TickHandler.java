@@ -11,9 +11,7 @@ public interface TickHandler {
     
     default void runSteps(GlobalState state) {
         TickState tstate = new TickState();
-        getSteps(state)
-            .stream()
-            .forEach(step -> step.accept(tstate));
+        getSteps(state).forEach(step -> step.accept(tstate));
     }
     
     default void simulateSlowUpdate(long millisecondsDelay) {

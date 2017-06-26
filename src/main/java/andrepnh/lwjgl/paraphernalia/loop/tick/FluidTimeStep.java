@@ -2,14 +2,15 @@ package andrepnh.lwjgl.paraphernalia.loop.tick;
 
 import andrepnh.lwjgl.paraphernalia.GlobalState;
 import andrepnh.lwjgl.paraphernalia.loop.input.DefaultInputHandler;
-import andrepnh.lwjgl.paraphernalia.loop.update.DefaultUpdater;
 import andrepnh.lwjgl.paraphernalia.loop.render.DefaultRenderer;
+import andrepnh.lwjgl.paraphernalia.loop.update.DefaultUpdater;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class FixedFps implements TickHandler {
-    private static final int MILLISECONDS_PER_FRAME = 32; // 30fps
+public class FluidTimeStep implements TickHandler {
+    
+    private long previousFrameStart;
 
     @Override
     public List<Consumer<TickState>> getSteps(GlobalState state) {
@@ -20,13 +21,19 @@ public class FixedFps implements TickHandler {
             .add(tstate -> new DefaultUpdater(state).update())
             .add(tstate -> simulateSlowRender(state.renderDelay))
             .add(tstate -> new DefaultRenderer(state).render())
-            .add(tstate -> sleep(tstate.<Long>get(Property.FRAME_START) 
-                + MILLISECONDS_PER_FRAME - System.currentTimeMillis()))
             .build();
     }
 
+    @Override
+    public void runSteps(GlobalState state) {
+        TickState tstate = new TickState();
+        previousFrameStart = System.currentTimeMillis();
+        tstate.put(Property.PREVIOUS_FRAME_START, previousFrameStart);
+        getSteps(state).forEach(step -> step.accept(tstate));
+    }
+    
     private enum Property implements TickProperty {
-        FRAME_START
+        FRAME_START, PREVIOUS_FRAME_START
     }
     
 }
