@@ -9,6 +9,7 @@ public final class TickHandlerFactory {
             case SIMPLE: return new DefaultTickHandler();
             case FIXED_FPS: return new FixedFps();
             case FLUID_TIME_STEP: return new FluidTimeStep();
+            case MULTI_UPDATE: return new MultiUpdate();
             default: throw new IllegalArgumentException("Unknown LoopKind: " + loopKind);
         }
     }
