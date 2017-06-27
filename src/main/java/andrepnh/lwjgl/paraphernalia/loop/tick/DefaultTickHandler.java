@@ -17,7 +17,7 @@ public class DefaultTickHandler implements TickHandler {
             .add(tstate -> simulateSlowUpdate(state.updateDelay))
             .add(tstate -> new DefaultUpdater(state).update(GlobalState.DEFAULT_MILLISECONDS_PER_FRAME))
             .add(tstate -> simulateSlowRender(state.renderDelay))
-            .add(tstate -> new DefaultRenderer(state).render())
+            .add(tstate -> new DefaultRenderer(state).render(0))
             .build();
     }
     

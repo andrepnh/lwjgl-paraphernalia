@@ -21,7 +21,7 @@ public class FluidTimeStep implements TickHandler {
                     - tstate.<Long>get(Property.PREVIOUS_TICK_START);
                 new DefaultUpdater(state).update((int) elapsedMilliseconds);
             }).add(tstate -> simulateSlowRender(state.renderDelay))
-            .add(tstate -> new DefaultRenderer(state).render())
+            .add(tstate -> new DefaultRenderer(state).render(0))
             .add(tstate -> tstate.put(Property.PREVIOUS_TICK_START, tstate.get(Property.TICK_START)))
             .build();
     }

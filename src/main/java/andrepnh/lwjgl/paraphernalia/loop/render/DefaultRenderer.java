@@ -22,16 +22,16 @@ public class DefaultRenderer implements Renderer {
     }
     
     @Override
-    public void render() {
+    public void render(float nextTickProgress) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-        drawSquare(state.x, state.y);
-        state.squares.forEach(array -> drawSquare(array[0], array[1]));
+        drawSquare(state.x, state.y, nextTickProgress);
+        state.squares.forEach(array -> drawSquare(array[0], array[1], nextTickProgress));
         glfwSwapBuffers(state.window); // swap the color buffers
     }
     
-    private void drawSquare(float x, float y) {
+    private void drawSquare(float x, float y, float nextTickProgress) {
         glPushMatrix();
-        glTranslatef(x * 0.1F, y * 0.1F, 0);
+        glTranslatef(x * (1 + nextTickProgress) * 0.1F, y * (1 + nextTickProgress) * 0.1F, 0);
         glBegin(GL_QUADS);
         glColor3f(0, 0, 0);
         glVertex2d(0, 0);

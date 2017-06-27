@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class MultiUpdate implements TickHandler {
+public class ExtrapolatedMultiUpdate implements TickHandler {
     private static final int MILLISECONDS_PER_UPDATE = 12; // ~80fps //10; // 100fps
 
     @Override
@@ -30,9 +30,12 @@ public class MultiUpdate implements TickHandler {
                     lag -= MILLISECONDS_PER_UPDATE;
                 }
                 tstate.put(Property.LAG, lag);
+                tstate.put(Property.NEXT_TICK_PROGRESS, ((float) lag) / MILLISECONDS_PER_UPDATE);
             }).add(tstate -> simulateSlowRender(state.renderDelay))
-            .add(tstate -> new DefaultRenderer(state).render(0))
-            .add(tstate -> tstate.put(Property.PREVIOUS_TICK_START, tstate.get(Property.TICK_START)))
+            .add(tstate -> {
+                float nextTickProgress = tstate.<Float>get(Property.NEXT_TICK_PROGRESS);
+                new DefaultRenderer(state).render(nextTickProgress);
+            }).add(tstate -> tstate.put(Property.PREVIOUS_TICK_START, tstate.get(Property.TICK_START)))
             .build();
     }
 
@@ -78,7 +81,7 @@ public class MultiUpdate implements TickHandler {
     }
     
     private enum Property implements TickProperty {
-        TICK_START, PREVIOUS_TICK_START, LAG
+        TICK_START, PREVIOUS_TICK_START, LAG, NEXT_TICK_PROGRESS
     }
     
 }
