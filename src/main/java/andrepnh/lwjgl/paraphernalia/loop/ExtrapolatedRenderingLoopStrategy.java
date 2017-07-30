@@ -21,8 +21,6 @@ public class ExtrapolatedRenderingLoopStrategy implements LoopStrategy {
             moveSquares(context);
             accumulatedLag -= nanosecondsPerFrame;
         }
-        
-        moveSquares(context);
         sleepMilli(context.updateDelayFactor);
         render(context.squares);
         sleepMilli(context.renderDelayFactor);

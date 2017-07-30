@@ -1,7 +1,5 @@
 package andrepnh.lwjgl.paraphernalia;
 
-import andrepnh.lwjgl.paraphernalia.Context;
-import andrepnh.lwjgl.paraphernalia.Square;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
