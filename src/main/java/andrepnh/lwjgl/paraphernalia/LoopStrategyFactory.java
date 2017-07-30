@@ -1,4 +1,10 @@
-package andrepnh.lwjgl.paraphernalia.opengl32;
+package andrepnh.lwjgl.paraphernalia;
+
+import andrepnh.lwjgl.paraphernalia.loop.ExtrapolatedRenderingLoopStrategy;
+import andrepnh.lwjgl.paraphernalia.loop.FixedFpsLoopStrategy;
+import andrepnh.lwjgl.paraphernalia.loop.FluidTimeStepLoopStrategy;
+import andrepnh.lwjgl.paraphernalia.loop.MultipleUpdatesLoopStrategy;
+import andrepnh.lwjgl.paraphernalia.loop.SimpleLoopStrategy;
 
 public class LoopStrategyFactory {
     public LoopStrategy getInstance(LoopType loopType) {

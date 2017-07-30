@@ -1,4 +1,7 @@
-package andrepnh.lwjgl.paraphernalia.opengl32;
+package andrepnh.lwjgl.paraphernalia.loop;
+
+import andrepnh.lwjgl.paraphernalia.LoopStrategy;
+import andrepnh.lwjgl.paraphernalia.Context;
 
 public class MultipleUpdatesLoopStrategy implements LoopStrategy {
     private long accumulatedLag = 0;

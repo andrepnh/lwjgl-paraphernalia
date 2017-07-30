@@ -1,4 +1,4 @@
-package andrepnh.lwjgl.paraphernalia.opengl32;
+package andrepnh.lwjgl.paraphernalia;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_CONTEXT_VERSION_MAJOR;

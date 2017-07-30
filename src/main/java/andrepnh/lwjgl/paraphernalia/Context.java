@@ -1,4 +1,4 @@
-package andrepnh.lwjgl.paraphernalia.opengl32;
+package andrepnh.lwjgl.paraphernalia;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
@@ -54,44 +54,44 @@ public final class Context {
         previousFrameStart = currentFrameStart = System.nanoTime();
     }
 
-    void nextLoopKind() {
+    public void nextLoopKind() {
         loopType = cyclicLoopType.next();
     }
 
-    void increaseRenderDelayFactor() {
+    public void increaseRenderDelayFactor() {
         renderDelayFactor++;
     }
 
-    void decreaseRenderDelayFactor() {
+    public void decreaseRenderDelayFactor() {
         renderDelayFactor--;
         if (renderDelayFactor < 0) {
             renderDelayFactor = 0;
         }
     }
 
-    void increaseUpdateDelayFactor() {
+    public void increaseUpdateDelayFactor() {
         updateDelayFactor++;
     }
 
-    void decreaseUpdateDelayFactor() {
+    public void decreaseUpdateDelayFactor() {
         updateDelayFactor--;
         if (updateDelayFactor < 0) {
             updateDelayFactor = 0;
         }
     }
     
-    void increaseTargetFps() {
+    public void increaseTargetFps() {
         targetFps += 10;
     }
 
-    void decreaseTargetFps() {
+    public void decreaseTargetFps() {
         targetFps -= 10;
         if (targetFps < 15) {
             updateDelayFactor = 15;
         }
     }
 
-    void setLoopType(LoopType targetLoopType) {
+    public void setLoopType(LoopType targetLoopType) {
         int i = 0;
         while (loopType != targetLoopType) {
             nextLoopKind();

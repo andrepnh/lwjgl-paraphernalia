@@ -1,4 +1,7 @@
-package andrepnh.lwjgl.paraphernalia.opengl32;
+package andrepnh.lwjgl.paraphernalia.loop;
+
+import andrepnh.lwjgl.paraphernalia.LoopStrategy;
+import andrepnh.lwjgl.paraphernalia.Context;
 
 public class FluidTimeStepLoopStrategy implements LoopStrategy {
     private static final long NANOSECONDS_PER_FRAME = 1000000000 / 60; // Targeting 60fps

@@ -1,4 +1,4 @@
-package andrepnh.lwjgl.paraphernalia.opengl32;
+package andrepnh.lwjgl.paraphernalia;
 
 public class Square {
 
@@ -19,7 +19,7 @@ public class Square {
         this.color = color;
     }
 
-    Square(Square square) {
+    public Square(Square square) {
         this.x = square.x;
         this.y = square.y;
         this.speed = square.speed;

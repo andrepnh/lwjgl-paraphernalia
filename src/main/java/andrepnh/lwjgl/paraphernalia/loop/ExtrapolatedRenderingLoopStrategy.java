@@ -1,5 +1,8 @@
-package andrepnh.lwjgl.paraphernalia.opengl32;
+package andrepnh.lwjgl.paraphernalia.loop;
 
+import andrepnh.lwjgl.paraphernalia.LoopStrategy;
+import andrepnh.lwjgl.paraphernalia.Square;
+import andrepnh.lwjgl.paraphernalia.Context;
 import java.util.ArrayList;
 import java.util.List;
 
